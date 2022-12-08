@@ -43,6 +43,14 @@ public class Question {
         return firstPossibleAnswer;
     }
 
+    public String getFirstPossibleAnswerTaskText() {
+        return firstPossibleAnswer.answerText;
+    }
+
+    public int getFirstPossibleAnswerPoints() {
+        return firstPossibleAnswer.points;
+    }
+
     public void setFirstPossibleAnswer(Answer firstPossibleAnswer) {
         this.firstPossibleAnswer = firstPossibleAnswer;
     }
@@ -51,12 +59,28 @@ public class Question {
         return secondPossibleAnswer;
     }
 
+    public String getSecondPossibleAnswerTaskText() {
+        return secondPossibleAnswer.answerText;
+    }
+
+    public int getSecondPossibleAnswerPoints() {
+        return secondPossibleAnswer.points;
+    }
+
     public void setSecondPossibleAnswer(Answer secondPossibleAnswer) {
         this.secondPossibleAnswer = secondPossibleAnswer;
     }
 
     public Answer getThirdPossibleAnswer() {
         return thirdPossibleAnswer;
+    }
+
+    public String getThirdPossibleAnswerTaskText() {
+        return thirdPossibleAnswer.answerText;
+    }
+
+    public int getThirdPossibleAnswerPoints() {
+        return thirdPossibleAnswer.points;
     }
 
     public void setThirdPossibleAnswer(Answer thirdPossibleAnswer) {
@@ -75,7 +99,7 @@ public class Question {
     }
 
 
-    class Answer {
+    static class Answer {
         private String answerText;
         private int points;
 

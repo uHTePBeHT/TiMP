@@ -17,7 +17,7 @@ public class Test {
     private List<String> readInputFileToList() throws IOException { //передаём файл в список строк
         String fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Input\\input.txt";
         List<String> lines = Files.readAllLines(Paths.get(fileName)); //создаём массив строк
-        System.out.println(lines);
+
         return lines; //возвращаем массив строк
     }
 
@@ -25,8 +25,8 @@ public class Test {
         List<String> questionsLines = new ArrayList<>();
         int limit = lines.size();
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            int num = random.nextInt(limit) + 1;
+        for (int i = 0; i < 3; i++) {
+            int num = random.nextInt(limit);
             questionsLines.add(lines.get(num));
         }
         return questionsLines; //возвращаем 10 выбранных строк-вопросов
@@ -35,12 +35,10 @@ public class Test {
     private List<Question> parseLinesToQuestions() throws IOException {
         List<String> questionLines = randomQuestions(readInputFileToList());
         List<Question> tempTestQuestions = new ArrayList<>();
-        for (int i = 0; i < 10; i++) { //10 строк по очереди
+        for (int i = 0; i < 3; i++) { //10 строк по очереди
             String str = questionLines.get(i);
             String[] words = str.split(";");//делим строку по словам, через ";"
-            /*for (String word : words) {
-                System.out.println(word);
-            }*/
+
             tempTestQuestions.add(createQuestion(words));
         }
         return tempTestQuestions;
@@ -53,5 +51,11 @@ public class Test {
         return new Question(Integer.parseInt(words[0]), words[1], firstAnswer, secondAnswer, thirdAnswer); //создаём вопрос
     }
 
+    public List<Question> getTestQuestions() {
+        return testQuestions;
+    }
 
+    public void setTestQuestions(List<Question> testQuestions) {
+        this.testQuestions = testQuestions;
+    }
 }

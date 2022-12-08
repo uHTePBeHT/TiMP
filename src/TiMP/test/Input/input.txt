@@ -1,2 +1,6 @@
 1;adsasdasd;asdasd;0;fgdf;1;fgh;0
-2;sdfsdfs;dsfs1;vbcvb;0;sf;0
+2;sdfsdfs;dsfs;1;vbcvb;0;sf;0
+3;ssdgfdfg;dfdf;1;dfgd;0;hgj;0
+4;sdfsdfsfs;sdfs;0;fghf;0dfgdfg;1
+5;dfdg;fgh;1;dfg;0;fgh;0
+6;fghfgh;fgh;0;fgh;0;ghjfgh;1
