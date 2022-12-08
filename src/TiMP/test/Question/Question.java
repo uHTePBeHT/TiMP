@@ -1,18 +1,26 @@
-package Question;
+package TiMP.test.Question;
+
+import java.util.Scanner;
 
 public class Question {
-    private int questionID; // individual question number
-    private String taskText; // wording of the question
+    private int questionID;
+    private String taskText;
     private Answer firstPossibleAnswer;
     private Answer secondPossibleAnswer;
     private Answer thirdPossibleAnswer;
 
-    public Question(int questionID, String taskText, Answer firstPossibleAnswer, Answer secondPossibleAnswer, Answer thirdPossibleAnswer) {
+    public Question(int questionID, String taskText, String[] firstArray, String[] secondArray, String[] thirdArray) {
         this.questionID = questionID;
         this.taskText = taskText;
-        this.firstPossibleAnswer = firstPossibleAnswer;
-        this.secondPossibleAnswer = secondPossibleAnswer;
-        this.thirdPossibleAnswer = thirdPossibleAnswer;
+        this.firstPossibleAnswer = new Answer(firstArray[0], Integer.parseInt(firstArray[1]));
+        this.secondPossibleAnswer = new Answer(secondArray[0], Integer.parseInt(secondArray[1]));
+        this.thirdPossibleAnswer = new Answer(thirdArray[0], Integer.parseInt(thirdArray[1]));
+        /*this.firstPossibleAnswer.answerText = firstArray[0];
+        this.firstPossibleAnswer.points = Integer.parseInt(firstArray[1]);
+        this.secondPossibleAnswer.answerText = secondArray[0];
+        this.secondPossibleAnswer.points = Integer.parseInt(secondArray[1]);
+        this.thirdPossibleAnswer.answerText = thirdArray[0];
+        thirdPossibleAnswer.points = Integer.parseInt(thirdArray[1]);*/
     }
 
     public int getQuestionID() {
@@ -54,6 +62,18 @@ public class Question {
     public void setThirdPossibleAnswer(Answer thirdPossibleAnswer) {
         this.thirdPossibleAnswer = thirdPossibleAnswer;
     }
+
+    public void editAnswer(Answer possibleAnswer) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter new question task text:");
+        String text = scanner.nextLine();
+        possibleAnswer.setAnswerText(text);
+        System.out.println();
+        System.out.print("Enter new question points: ");
+        int point = scanner.nextInt();
+        possibleAnswer.setPoints(point);
+    }
+
 
     class Answer {
         private String answerText;
