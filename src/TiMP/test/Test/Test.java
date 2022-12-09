@@ -25,7 +25,7 @@ public class Test {
         List<String> questionsLines = new ArrayList<>();
         int limit = lines.size();
         Random random = new Random();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             int num = random.nextInt(limit);
             questionsLines.add(lines.get(num));
         }
@@ -35,7 +35,7 @@ public class Test {
     private List<Question> parseLinesToQuestions() throws IOException {
         List<String> questionLines = randomQuestions(readInputFileToList());
         List<Question> tempTestQuestions = new ArrayList<>();
-        for (int i = 0; i < 3; i++) { //10 строк по очереди
+        for (int i = 0; i < 10; i++) { //10 строк по очереди
             String str = questionLines.get(i);
             String[] words = str.split(";");//делим строку по словам, через ";"
 

@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Test test = new Test();
-        Result result = new Result();
+        Result result = new Result(2, null, null, 0);
         result.startApp();
     }
 }
