@@ -23,10 +23,9 @@ public class Test {
 
     private List<String> randomQuestions(List<String> lines) { //генерируем, какие вопросы пойдут в тест
         List<String> questionsLines = new ArrayList<>();
-        int limit = lines.size();
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            int num = random.nextInt(limit);
+        for (int i = 0; i < lines.size(); i++) {
+            int num = random.nextInt(lines.size());
             questionsLines.add(lines.get(num));
         }
         return questionsLines; //возвращаем 10 выбранных строк-вопросов
