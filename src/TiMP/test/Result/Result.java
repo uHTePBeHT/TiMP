@@ -12,36 +12,31 @@ import java.util.Scanner;
 
 public class Result {
     private int mark; //оценка.
-    private List<Question> correctAnswers; //список вопросов, на которые ответил правильно.
-    private List<Question> incorrectAnswers; //список вопросов, на которые ответил неправильно.
-    private int summaryPoints;
+    private List<Question> correctAnswers = new ArrayList<>(); //список вопросов, на которые ответил правильно.
+    private List<Question> incorrectAnswers = new ArrayList<>(); //список вопросов, на которые ответил неправильно.
+    private int summaryPoints = 0;
     private int numOfQuestionInTheTest;
-    private List<String[]> users;
+    private List<String[]> users = new ArrayList<>();
 
     public Result() throws IOException {
-        this.mark = 2;
-        this.correctAnswers = null;
-        this.incorrectAnswers = null;
-        this.summaryPoints = 0;
         this.users = parseLinesToLogins();
     }
+
 
 
     public void startApp() throws IOException {
         System.out.println("Welcome!");
         chooseRole();
-        //startTest(test.getTestQuestions());
-
     }
 
-    private void chooseRole() {
+    private void chooseRole() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose the role [1)Admin] or [2)User] and enter the number (1 or 2):");
+        System.out.println("Choose the role [ 1)Admin ] or [ 2)User ] and enter the number (1 or 2):");
         int num = scanner.nextInt();
         switch (num) {
             case 1:
                 System.out.println("You have entered by Admin-role");
-                loginWithAdmin();
+                //loginWithAdmin();
                 break;
             case 2:
                 System.out.println("You have entered by User-role");
@@ -73,30 +68,55 @@ public class Result {
 
     private void loginWithUserLogin() throws IOException {
         boolean trueLogin = false;
+
+        int userIndex = 0;
         Scanner scanner = new Scanner(System.in);
+        System.out.println();
         System.out.println("Enter login: ");
         String enteredLogin = scanner.nextLine();
 
-        for (String[] user : users) {
-            if (user[0].equals(enteredLogin)) {
-                loginWithUserPassword();
+        for (int index = 0; index < users.size(); index++) {
+            if (users.get(index)[0].equals(enteredLogin)) {
+                userIndex = index;
                 trueLogin = true;
                 break;
             }
         }
         if (!trueLogin) {
             System.out.println("You are not registered.");
+            loginWithUserLogin();
         }
-        System.out.println("You logged in.");
 
+        if (!loginWithUserPassword(userIndex)) {
+            loginWithUserLogin();
+        }
+
+        System.out.println("You logged in.\n");
+        System.out.println("Test starts...");
         startTest();
     }
 
-    private void loginWithUserPassword() {
+    private boolean loginWithUserPassword(int index) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter password: ");
-        String enteredPassword = scanner.nextLine();
+        boolean bool = false;
 
+        for (int i = 0; i < 3; i++) {
+            System.out.println();
+            System.out.println("Enter password: ");
+            String enteredPassword = scanner.nextLine();
+            if (enteredPassword.equals(users.get(index)[1])) {
+                bool = true;
+                break;
+            } else {
+                int temp = 2 - i;
+                if (temp > 0) {
+                    System.out.println("You entered wrong password! Try again. There are " + temp + " attempts.");
+                } else {
+                    System.out.println("Try to login again.");
+                }
+            }
+        }
+        return bool;
     }
 
 
@@ -108,34 +128,17 @@ public class Result {
         /*Вывод на экран доп инфы*/
         for (int i = 0; i < testQuestions.size(); i++) {
             Question curQuestion = testQuestions.get(i);
-            System.out.println(i + ") " + curQuestion.getTaskText() + ":");
+            System.out.println("Вопрос " + i + ". " + curQuestion.getTaskText() + ":");
             System.out.println("1) " + testQuestions.get(i).getFirstPossibleAnswerTaskText());
             System.out.println("2) " + testQuestions.get(i).getSecondPossibleAnswerTaskText());
             System.out.println("3) " + testQuestions.get(i).getThirdPossibleAnswerTaskText());
             System.out.println("Choose the answer (enter: 1, 2 or 3) or skip (enter any other number):");
             int answerNumber = scanner.nextInt();
-            if (answerNumber != 0 && answerNumber != 1 && answerNumber != 2 && answerNumber != 3) {
 
-            } else {
             checkQuestionForCorrectAnswer(curQuestion, answerNumber, testQuestions);
-            }
-        }
-    }
 
-    private void newQuestion(List<Question> testQuestions) {
-        Scanner scanner = new Scanner(System.in);
-        Question curQuestion = testQuestions.get(numOfQuestionInTheTest);
-        System.out.println(numOfQuestionInTheTest + ") " + curQuestion.getTaskText() + ":");
-        System.out.println("1) " + testQuestions.get(numOfQuestionInTheTest).getFirstPossibleAnswerTaskText());
-        System.out.println("2) " + testQuestions.get(numOfQuestionInTheTest).getSecondPossibleAnswerTaskText());
-        System.out.println("3) " + testQuestions.get(numOfQuestionInTheTest).getThirdPossibleAnswerTaskText());
-        System.out.println("Choose the answer (enter: 1, 2 or 3) or skip (enter any other number):");
-        int answerNumber = scanner.nextInt();
-        if (answerNumber != 0 && answerNumber != 1 && answerNumber != 2 && answerNumber != 3) {
-
-        } else {
-            checkQuestionForCorrectAnswer(curQuestion, answerNumber, testQuestions);
         }
+        testEnding();
     }
 
     /*Проверка выбранного ответа*/
@@ -159,7 +162,7 @@ public class Result {
                 break;
             case 3:
                 summaryPoints += testQuestions.get(numOfQuestionInTheTest).getThirdPossibleAnswerPoints();
-                if (testQuestions.get(i).getThirdPossibleAnswerPoints() == 1) {
+                if (testQuestions.get(numOfQuestionInTheTest).getThirdPossibleAnswerPoints() == 1) {
                     correctAnswers.add(curQuestion);
                 } else {
                     incorrectAnswers.add(curQuestion);
@@ -167,12 +170,52 @@ public class Result {
                 break;
             default: //если любое другое значение (!= 1, 2, 3), то пропускаем вопрос
                 incorrectAnswers.add(curQuestion);
-                if (i < testQuestions.size()) { //если это не последний вопрос
-                    newQuestion(); //то переходим на следующий
-                } else {
-                    testEnding(); //иначе заканчиваем тест;
-                }
                 break;
+        }
+    }
+
+    private void testEnding() {
+        System.out.println("\nYou have completed the test. Your summary points: " + summaryPoints);
+
+        if (summaryPoints >= 0 && summaryPoints < 5) {
+            System.out.println("Your mark is '2'");
+        }
+        if (summaryPoints >= 5 && summaryPoints < 7) {
+            System.out.println("Your mark is '3'");
+        }
+        if (summaryPoints >= 7 && summaryPoints < 9) {
+            System.out.println("Your mark is '4'");
+        }
+        if (summaryPoints >= 9 && summaryPoints <= 10) {
+            System.out.println("Your mark is '5'");
+        }
+        if (summaryPoints < 0 || summaryPoints > 10) {
+            System.out.println("Error");
+        }
+        System.out.println();
+        if (!correctAnswers.isEmpty()) {
+            System.out.println("Correct answers are: ");
+            for (Question correctAnswer : correctAnswers) {
+                System.out.print(correctAnswer.getQuestionID() + ". " + correctAnswer.getTaskText() + " ");
+                System.out.println();
+            }
+        }
+        System.out.println("\n");
+
+        if (!incorrectAnswers.isEmpty()) {
+            System.out.println("Mistakes: ");
+            for (Question incorrectQuestion : incorrectAnswers) {
+                System.out.print(incorrectQuestion.getQuestionID() + ". " + incorrectQuestion.getTaskText() + " \n");
+                if (incorrectQuestion.getFirstPossibleAnswerPoints() == 1) {
+                    System.out.println("Right answer is 1) " + incorrectQuestion.getFirstPossibleAnswerTaskText());
+                }
+                if (incorrectQuestion.getSecondPossibleAnswerPoints() == 1) {
+                    System.out.println("Right answer is 2) " + incorrectQuestion.getSecondPossibleAnswerTaskText());
+                }
+                if (incorrectQuestion.getThirdPossibleAnswerPoints() == 1) {
+                    System.out.println("Right answer is 3) " + incorrectQuestion.getThirdPossibleAnswerTaskText());
+                }
+            }
         }
     }
 }
