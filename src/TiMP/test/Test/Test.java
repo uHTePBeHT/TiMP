@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Test {
-    private Question question; //вопрос
+    //private Question question; //вопрос
     private List<Question> testQuestions; //список вопросов.
 
     public Test() throws IOException {

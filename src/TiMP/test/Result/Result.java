@@ -177,7 +177,7 @@ public class Result {
         }
     }
 
-    private void testEnding() throws IOException {
+        private void testEnding() throws IOException {
         System.out.println("\nYou have completed the test. \nYour summary points: " + summaryPoints);
 
         if (summaryPoints >= 0 && summaryPoints < 5) {
