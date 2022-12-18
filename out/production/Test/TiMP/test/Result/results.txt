@@ -1,7 +1,1 @@
-user1:  Mark is '2'  Summary points for test: 2
-user3:  Mark is '2'  Summary points for test: 0
-user2:  Mark is '4'  Summary points for test: 8
-user1:  Mark is '3'  Summary points for test: 5
-user2:  Mark is '2'  Summary points for test: 1
-user3:  Mark is '5'  Summary points for test: 9
-user1:  Mark is '2'  Summary points for test: 2
+

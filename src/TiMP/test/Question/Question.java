@@ -15,12 +15,6 @@ public class Question {
         this.firstPossibleAnswer = new Answer(firstArray[0], Integer.parseInt(firstArray[1]));
         this.secondPossibleAnswer = new Answer(secondArray[0], Integer.parseInt(secondArray[1]));
         this.thirdPossibleAnswer = new Answer(thirdArray[0], Integer.parseInt(thirdArray[1]));
-        /*this.firstPossibleAnswer.answerText = firstArray[0];
-        this.firstPossibleAnswer.points = Integer.parseInt(firstArray[1]);
-        this.secondPossibleAnswer.answerText = secondArray[0];
-        this.secondPossibleAnswer.points = Integer.parseInt(secondArray[1]);
-        this.thirdPossibleAnswer.answerText = thirdArray[0];
-        thirdPossibleAnswer.points = Integer.parseInt(thirdArray[1]);*/
     }
 
     public int getQuestionID() {

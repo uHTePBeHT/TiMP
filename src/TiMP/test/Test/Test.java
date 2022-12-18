@@ -7,17 +7,24 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Test {
-    //private Question question; //вопрос
     private List<Question> testQuestions; //список вопросов.
+    private String fileName;
 
-    public Test() throws IOException {
-        this.testQuestions = parseLinesToQuestions();
+    public Test(int number) throws IOException {
+        this.testQuestions = parseLinesToQuestions(number);
     }
 
-    private List<String> readInputFileToList() throws IOException { //передаём файл в список строк
-        String fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Input\\input.txt";
+    private List<String> readInputFileToList(int number) throws IOException { //передаём файл в список строк
+        if (number == 1) {
+            fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Input\\history.txt";
+        }
+        if (number == 2) {
+            fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Input\\literature.txt";
+        }
+        if (number == 3) {
+            fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Input\\russian.txt";
+        }
         List<String> lines = Files.readAllLines(Paths.get(fileName)); //создаём массив строк
-
         return lines; //возвращаем массив строк
     }
 
@@ -31,8 +38,8 @@ public class Test {
         return questionsLines; //возвращаем 10 выбранных строк-вопросов
     }
 
-    private List<Question> parseLinesToQuestions() throws IOException {
-        List<String> questionLines = randomQuestions(readInputFileToList());
+    private List<Question> parseLinesToQuestions(int number) throws IOException {
+        List<String> questionLines = randomQuestions(readInputFileToList(number));
         List<Question> tempTestQuestions = new ArrayList<>();
         for (int i = 0; i < 10; i++) { //10 строк по очереди
             String str = questionLines.get(i);

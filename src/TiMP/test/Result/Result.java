@@ -23,11 +23,23 @@ public class Result {
         this.users = parseLinesToLogins();
     }
 
+    private void startWithChoosing() throws IOException {
+        int number = chooseTest();
+        if (number == 1 || number == 2 || number == 3) {
+            System.out.println("Тестирование начинается...");
+            startTest(number);
+        } else {
+            System.out.println("Тестирование остановлено.");
+        }
+    }
 
 
     public void startApp() throws IOException {
-        System.out.println("Welcome!");
-        chooseRole();
+        System.out.println("\nДобро пожаловать!");
+        //chooseRole();
+
+        loginWithUserLogin();
+        startWithChoosing();
     }
 
     private void chooseRole() throws IOException {
@@ -41,13 +53,25 @@ public class Result {
                 chooseRole();
                 break;
             case 2:
-                System.out.println("You have entered by User-role");
+                System.out.println("Вы зашли как пользователь.");
                 loginWithUserLogin();
                 break;
             default:
-                System.out.println("You entered wrong number! Be carefully!");
+                System.out.println("Вы ввели неверное число! Будьте внимательны!");
                 chooseRole();
         }
+    }
+
+    private int chooseTest() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Выберите тест, по какому  предмету хотите решить: ");
+        System.out.println("""
+                1) по истории
+                2) по литературе
+                3) по русскому языку
+                Завершить программу (любое другое число)""");
+        int number = scanner.nextInt();
+        return number;
     }
 
     private List<String> readInputFileToList() throws IOException { //передаём файл в список строк
@@ -68,13 +92,13 @@ public class Result {
         return tempUserLogins;
     }
 
-    private void loginWithUserLogin() throws IOException {
+    private void loginWithUserLogin() {
         boolean trueLogin = false;
 
-        int userIndex = 0;
+        int userIndex = -1;
         Scanner scanner = new Scanner(System.in);
         System.out.println();
-        System.out.println("Enter login: ");
+        System.out.println("Введите имя пользователя: ");
         String enteredLogin = scanner.nextLine();
 
         for (int index = 0; index < users.size(); index++) {
@@ -84,8 +108,9 @@ public class Result {
                 break;
             }
         }
+
         if (!trueLogin) {
-            System.out.println("You are not registered.");
+            System.out.println("Неверное имя пользователя.");
             loginWithUserLogin();
         }
 
@@ -93,9 +118,7 @@ public class Result {
             loginWithUserLogin();
         }
         currentUser = enteredLogin;
-        System.out.println("You logged in.\n");
-        System.out.println("Test starts...");
-        startTest();
+        System.out.println("Вход выполнен.\n");
     }
 
     private boolean loginWithUserPassword(int index) {
@@ -104,7 +127,7 @@ public class Result {
 
         for (int i = 0; i < 3; i++) {
             System.out.println();
-            System.out.println("Enter password: ");
+            System.out.println("Введите пароль: ");
             String enteredPassword = scanner.nextLine();
             if (enteredPassword.equals(users.get(index)[1])) {
                 bool = true;
@@ -112,9 +135,9 @@ public class Result {
             } else {
                 int temp = 2 - i;
                 if (temp > 0) {
-                    System.out.println("You entered wrong password! Try again. There are " + temp + " attempts.");
+                    System.out.println("Вы ввели неверный пароль! Попробуйте ещё раз. Осталось " + temp + " попытки.");
                 } else {
-                    System.out.println("Try to login again.");
+                    System.out.println("Введите имя пользователя ещё раз.");
                 }
             }
         }
@@ -123,8 +146,8 @@ public class Result {
 
 
 
-    private void startTest() throws IOException {
-        Test test = new Test();
+    private void startTest(int number) throws IOException {
+        Test test = new Test(number);
         List<Question> testQuestions = test.getTestQuestions();
         Scanner scanner = new Scanner(System.in);
         /*Вывод на экран доп инфы*/
@@ -135,7 +158,7 @@ public class Result {
             System.out.println("1) " + testQuestions.get(i).getFirstPossibleAnswerTaskText());
             System.out.println("2) " + testQuestions.get(i).getSecondPossibleAnswerTaskText());
             System.out.println("3) " + testQuestions.get(i).getThirdPossibleAnswerTaskText());
-            System.out.println("\nChoose the answer (enter: 1, 2 or 3) or skip (enter any other number):");
+            System.out.println("\nВыберите вариант ответа (введите: 1, 2 или 3) или пропустите вопрос (введите любое другое число):");
             int answerNumber = scanner.nextInt();
 
             checkQuestionForCorrectAnswer(curQuestion, answerNumber, testQuestions, i);
@@ -178,31 +201,31 @@ public class Result {
     }
 
         private void testEnding() throws IOException {
-        System.out.println("\nYou have completed the test. \nYour summary points: " + summaryPoints);
+        System.out.println("\nВы завершили тестирование. \nБаллы: " + summaryPoints);
 
         if (summaryPoints >= 0 && summaryPoints < 5) {
-            System.out.println("Your mark is '2'");
+            System.out.println("Вы получили '2'");
             mark = 2;
         }
         if (summaryPoints >= 5 && summaryPoints < 7) {
-            System.out.println("Your mark is '3'");
+            System.out.println("Вы получили '3'");
             mark = 3;
         }
         if (summaryPoints >= 7 && summaryPoints < 9) {
-            System.out.println("Your mark is '4'");
+            System.out.println("Вы получили '4'");
             mark = 4;
         }
         if (summaryPoints >= 9 && summaryPoints <= 10) {
-            System.out.println("Your mark is '5'");
+            System.out.println("Вы получили '5'");
             mark = 5;
         }
         if (summaryPoints < 0 || summaryPoints > 10) {
-            System.out.println("Error");
+            System.out.println("Ошибка");
             mark = 2;
         }
         System.out.println();
         if (!correctAnswers.isEmpty()) {
-            System.out.println("Correct answers are: ");
+            System.out.println("Правильные вопросы: ");
             for (Question correctAnswer : correctAnswers) {
                 System.out.print("[" + correctAnswer.getQuestionID() + "] " + correctAnswer.getTaskText() + " ");
                 System.out.println();
@@ -211,23 +234,61 @@ public class Result {
         System.out.println("\n");
 
         if (!incorrectAnswers.isEmpty()) {
-            System.out.println("Mistakes: ");
+            System.out.println("Ошибки: ");
             for (Question incorrectQuestion : incorrectAnswers) {
                 System.out.print("[" + incorrectQuestion.getQuestionID() + "] " + incorrectQuestion.getTaskText() + " \n");
                 if (incorrectQuestion.getFirstPossibleAnswerPoints() == 1) {
-                    System.out.println("Right answer - 1)" + incorrectQuestion.getFirstPossibleAnswerTaskText() + "\n");
+                    System.out.println("Правильный ответ на вопрос - 1)" + incorrectQuestion.getFirstPossibleAnswerTaskText() + "\n");
                 }
                 if (incorrectQuestion.getSecondPossibleAnswerPoints() == 1) {
-                    System.out.println("Right answer - 2)" + incorrectQuestion.getSecondPossibleAnswerTaskText() + "\n");
+                    System.out.println("Правильный ответ на вопрос - 2)" + incorrectQuestion.getSecondPossibleAnswerTaskText() + "\n");
                 }
                 if (incorrectQuestion.getThirdPossibleAnswerPoints() == 1) {
-                    System.out.println("Right answer - 3)" + incorrectQuestion.getThirdPossibleAnswerTaskText() + "\n");
+                    System.out.println("Правильный ответ на вопрос - 3)" + incorrectQuestion.getThirdPossibleAnswerTaskText() + "\n");
                 }
             }
         }
 
         FileWriter fileWriter = new FileWriter("C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Result\\results.txt", true);
-        fileWriter.write(currentUser + ":  Mark is '" + mark + "'  Summary points for test: " + summaryPoints + '\n');
+        fileWriter.write(currentUser + ";  Оценка " + mark + ";  Баллов за тест: " + summaryPoints + "\n");
         fileWriter.close();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("""
+                Введите число:
+                1) Решить новый тест.
+                2) Посмотреть предыдущие результаты
+                Чтобы завершить программу, введите любое другое число.""");
+        int temp = scanner.nextInt();
+        if (temp == 1) {
+            startWithChoosing();
+        } else
+        if (temp == 2) {
+            checkResults();
+        } else {
+            System.out.println("Тестирование окончено.");
+        }
+    }
+    private void checkResults() throws IOException {
+        String fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Login\\results.txt";
+        List<String> lines = Files.readAllLines(Paths.get(fileName)); //создаём массив строк
+        for (String line : lines) {
+            System.out.println(line);
+        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("""
+                Введите число:
+                1) Решить новый тест.
+                2) Посмотреть предыдущие результаты
+                Чтобы завершить программу, введите любое другое число.""");
+        int temp = scanner.nextInt();
+        if (temp == 1) {
+            startWithChoosing();
+        } else
+        if (temp == 2) {
+            checkResults();
+        } else {
+            System.out.println("Тестирование окончено.");
+        }
     }
 }
