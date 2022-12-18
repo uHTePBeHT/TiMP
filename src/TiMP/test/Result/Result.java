@@ -270,7 +270,7 @@ public class Result {
         }
     }
     private void checkResults() throws IOException {
-        String fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Login\\results.txt";
+        String fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Result\\results.txt";
         List<String> lines = Files.readAllLines(Paths.get(fileName)); //создаём массив строк
         for (String line : lines) {
             System.out.println(line);
