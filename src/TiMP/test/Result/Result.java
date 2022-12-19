@@ -164,7 +164,7 @@ public class Result {
             checkQuestionForCorrectAnswer(curQuestion, answerNumber, testQuestions, i);
 
         }
-        testEnding();
+        testEnding(test.getFileName());
     }
 
     /*Проверка выбранного ответа*/
@@ -200,7 +200,7 @@ public class Result {
         }
     }
 
-        private void testEnding() throws IOException {
+        private void testEnding(String fileName) throws IOException {
         System.out.println("\nВы завершили тестирование. \nБаллы: " + summaryPoints);
 
         if (summaryPoints >= 0 && summaryPoints < 5) {
@@ -250,7 +250,7 @@ public class Result {
         }
 
         FileWriter fileWriter = new FileWriter("C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Result\\results.txt", true);
-        fileWriter.write(currentUser + ";  Оценка " + mark + ";  Баллов за тест: " + summaryPoints + "\n");
+        fileWriter.write(currentUser + "; " +  fileName + "; Оценка " + mark + "; Баллов за тест: " + summaryPoints + "\n");
         fileWriter.close();
 
         Scanner scanner = new Scanner(System.in);

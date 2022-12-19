@@ -25,6 +25,15 @@ public class Test {
             fileName = "C:\\Users\\Vladislav\\Desktop\\Test\\src\\TiMP\\test\\Input\\russian.txt";
         }
         List<String> lines = Files.readAllLines(Paths.get(fileName)); //создаём массив строк
+        if (number == 1) {
+            fileName = "Тест по истории";
+        }
+        if (number == 2) {
+            fileName = "Тест по литературе";
+        }
+        if (number == 3) {
+            fileName = "Тест по русскому языку";
+        }
         return lines; //возвращаем массив строк
     }
 
@@ -63,5 +72,9 @@ public class Test {
 
     public void setTestQuestions(List<Question> testQuestions) {
         this.testQuestions = testQuestions;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }
