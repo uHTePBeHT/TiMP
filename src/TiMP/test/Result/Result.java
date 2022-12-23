@@ -36,8 +36,6 @@ public class Result {
 
     public void startApp() throws IOException {
         System.out.println("\nДобро пожаловать!");
-        //chooseRole();
-
         loginWithUserLogin();
         startWithChoosing();
     }
